@@ -43,17 +43,17 @@ public class ContactController {
     private ContactService contactService;
  
 //    @Value("${msg.title}")
-//    private String title;
+      private String title;
 
     public ContactController() {
         this.logger = LoggerFactory.getLogger(this.getClass());
     }
  
-//    @GetMapping(value = {"/", "/index"})
-//    public String index(Model model) {
-//        model.addAttribute("title", title);
-//        return "index";
-//    }
+    @GetMapping(value = {"/", "/index"})
+    public String index(Model model) {
+        model.addAttribute("title", title);
+        return "index";
+    }
  
     @GetMapping(value = "/contacts")
     public String getContacts(Model model,
@@ -72,7 +72,7 @@ public class ContactController {
     }
  
     @GetMapping(value = "/contacts/{contactId}")
-public String getContactById(Model model, @PathVariable long contactId) {
+    public String getContactById(Model model, @PathVariable long contactId) {
     Contact contact = null;
     try {
         contact = contactService.findById(contactId);
@@ -94,7 +94,7 @@ public String getContactById(Model model, @PathVariable long contactId) {
     }
  
     @PostMapping(value = "/contacts/add")
-public String addContact(Model model,
+    public String addContact(Model model,
         @ModelAttribute("contact") Contact contact) {        
     try {
         Contact newContact = contactService.save(contact);
@@ -111,10 +111,10 @@ public String addContact(Model model,
         return "contact-edit";
     }        
 }
- 
- 
+
+
     @GetMapping(value = {"/contacts/{contactId}/edit"})
-public String showEditContact(Model model, @PathVariable long contactId) {
+   public String showEditContact(Model model, @PathVariable long contactId) {
     Contact contact = null;
     try {
         contact = contactService.findById(contactId);
@@ -125,7 +125,9 @@ public String showEditContact(Model model, @PathVariable long contactId) {
     model.addAttribute("contact", contact);
     return "contact-edit";
 }
-    
+
+
+@PostMapping(value = {"/contacts/{contactId}/edit"})
  public String updateContact(Model model,
         @PathVariable long contactId,
         @ModelAttribute("contact") Contact contact) {        
